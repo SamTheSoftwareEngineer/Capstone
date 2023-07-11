@@ -1,7 +1,7 @@
-venv/
+venv
 *.json
 seed.py
 *.pdf
 *.png
-__pycache__/
+__pycache__
 
