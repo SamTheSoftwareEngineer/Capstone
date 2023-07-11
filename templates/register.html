@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %} Registration Form {% endblock %}
+
+{% block content %}
+  <div class="registration-form">
+    <p> Please register below:</p>
+    <div>
+        <form action="/register" method="POST">
+        {{ form.hidden_tag() }}
+
+        {% for field in form %}
+          {% if field.widget.input_type != 'hidden' %}
+            <div class="form-group">
+              {{ field.label }}:<br>
+              {{ field(class="form-control") }}
+            </div>
+          {% endif %}
+        {% endfor %}
+        <br>
+        <button type="submit" class="button">Submit</button>
+      </form>
+    </div>
+  </div>
+{% endblock %}
+

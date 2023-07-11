@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Favorites{% endblock %}
+
+{% block content %}
+  <div class="favorites-content">
+    <h2>Favorite Activities</h2>
+    {% if favorites %}
+      <ul class="favorites-list">
+        {% for favorite in favorites %}
+          <li>{{ favorite.activity }}</li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p class="no-favorites-message">You have no favorite activities yet. Try adding some from the activities page!</p>
+    {% endif %}
+  </div>
+{% endblock %}

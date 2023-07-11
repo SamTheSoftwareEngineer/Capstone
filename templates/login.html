@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %} Login Form {% endblock %}
+
+{% block content %}
+  <div class="login-form">
+    <h2> Welcome to the Bored Flask Application! </h2>
+    <p> Please sign in or register to begin: </p>
+    <form action="/login" method="POST">
+      {{ form.hidden_tag() }}
+      {% for field in form if field.widget.input_type != 'hidden' %}
+        <div class="form-group">
+          {{ field.label }}: <br>
+          {{ field(class="form-control") }}
+        </div>
+      {% endfor %}
+      <br>
+      <button type="submit" class="button">Submit</button>
+      <a href="/register" class="button">Oops, I need to register.</a>
+    </form>
+  </div>
+{% endblock %}
+

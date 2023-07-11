@@ -1,0 +1,226 @@
+
+.navbar {
+    background-color: pink;  /* White */
+    padding: 10px;
+    margin-bottom: 20px;
+    position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 10px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.navbar a {
+    color: #000000;  /* Black */
+    text-decoration: none;
+    margin-right: 20px;
+    font-weight: bold;
+}
+
+.navbar .logout-btn {
+    background-color: #000000;  /* Black */
+    color: #FFFFFF;  /* White */
+    padding: 5px 10px;
+    border-radius: 4px;
+    text-decoration: none;
+}
+
+.content {
+    margin-top: 60px; /* Adjust to provide space below navbar */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 60px); /* Adjust to provide space for navbar */
+}
+
+.content .buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #F0F8FF; /* Light Blue */
+    color: #000000; /* Black */
+    font-family: Arial, sans-serif;
+}
+
+
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 18px;
+    border-radius: 20px;
+    background-color: #000000;
+    color: #FFFFFF;
+    text-decoration: none;
+    margin-top: 10px;
+}
+
+.copyright {
+    color: #FFFFFF; /* White */
+    font-size: 12px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Styles for the login form */
+.login-form {
+    text-align: center;
+    margin-top: 60px;
+  }
+  
+  .login-form h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  
+  .login-form p {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+  
+  .login-form form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .login-form .form-group {
+    margin-bottom: 10px;
+  }
+  
+  .login-form .form-group label {
+    font-weight: bold;
+  }
+  
+  .login-form .form-control {
+    padding: 8px;
+    width: 250px;
+    font-size: 14px;
+    border: 1px solid #000000; /* Black */
+    border-radius: 4px;
+  }
+  
+  .login-form .button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 18px;
+    border-radius: 20px;
+    background-color: #000000; /* Black */
+    color: #FFFFFF; /* White */
+    text-decoration: none;
+    margin-top: 10px;
+  }
+  
+  .login-form .button:hover {
+    background-color: #222222; /* Darker Black */
+  }
+
+  /* Styles for the registration form */
+.registration-form {
+    text-align: center;
+    margin-top: 60px;
+  }
+  
+  .registration-form p {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+  
+  .registration-form form {
+    margin-bottom: 20px;
+  }
+  
+  .registration-form .form-group {
+    margin-bottom: 10px;
+  }
+  
+  .registration-form .form-group label {
+    font-weight: bold;
+  }
+  
+  .registration-form .form-control {
+    padding: 8px;
+    width: 250px;
+    font-size: 14px;
+    border: 1px solid #000000; /* Black */
+    border-radius: 4px;
+  }
+  
+  .registration-form .button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 18px;
+    border-radius: 20px;
+    background-color: #000000; /* Black */
+    color: #FFFFFF; /* White */
+    text-decoration: none;
+    margin-top: 10px;
+  }
+  
+  .registration-form .button:hover {
+    background-color: #222222; /* Darker Black */
+  }
+  
+
+  .activity-content {
+    text-align: center;
+    margin-top: 60px;
+  }
+  
+  .activity-content p {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+  
+  .activity-content form {
+    margin-bottom: 20px;
+  }
+  
+  .activity-content h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .activity-content p,
+  .activity-content h2 {
+    color: #000000; /* Black */
+  }
+  
+  .activity-content .button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 18px;
+    border-radius: 20px;
+    background-color: #000000; /* Black */
+    color: #FFFFFF; /* White */
+    text-decoration: none;
+    margin-top: 10px;
+  }
+  
+  .activity-content .button:hover {
+    background-color: #222222; /* Darker Black */
+  }
+  
+  .activity-content ul {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 20px;
+  }
+  
+  .activity-content ul li {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #000000; /* Black */
+  }
+  
