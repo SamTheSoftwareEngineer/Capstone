@@ -1,0 +1,7 @@
+/venv 
+*.json
+seed.py
+*.pdf
+*.png
+/__pycache__/
+
