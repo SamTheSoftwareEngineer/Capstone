@@ -12,10 +12,10 @@ def insert_data():
 
     # Establish a connection to the PostgreSQL database
     conn = psycopg2.connect(
-        host='localhost',
-        database='funseeker',
-        user='postgres',
-        password='postgres'
+        host='mahmud.db.elephantsql.com',
+        database='khbddhaa',
+        user='khbddhaa',
+        password='POp_X4nCJdP-vl8pTXZgE__fsIHJlaa6'
     )
 
     # Create a cursor object to execute SQL queries

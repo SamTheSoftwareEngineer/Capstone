@@ -7,15 +7,18 @@ import requests
 import os 
 from sqlalchemy.orm.attributes import InstrumentedAttribute
 import json
+import os
+
+DATABASE_URL = os.getenv('DATABASE_URL', "postgres://khbddhaa:POp_X4nCJdP-vl8pTXZgE__fsIHJlaa6@mahmud.db.elephantsql.com/khbddhaa")
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://bored_database_user:9DK5u8U1Zt8JUnzwLOhuvSN8iTpQXyVj@dpg-cimbm7t9aq07op835i7g-a/bored_database" 
+app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL 
 # Render 
 # 'postgresql:///funseeker' --> Local 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False 
-app.config["SECRET_KEY"] = "please-work"
+app.config["SECRET_KEY"] = os.getenv('SECRET_KEY', "please-work")
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
 debug_toolbar = DebugToolbarExtension(app)
