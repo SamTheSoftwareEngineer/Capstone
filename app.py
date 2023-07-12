@@ -9,7 +9,7 @@ from sqlalchemy.orm.attributes import InstrumentedAttribute
 import json
 import os
 
-DATABASE_URL = os.getenv('DATABASE_URL', "postgres://khbddhaa:POp_X4nCJdP-vl8pTXZgE__fsIHJlaa6@mahmud.db.elephantsql.com/khbddhaa")
+DATABASE_URL = os.getenv('DATABASE_URL', "postgresql+psycopg2://khbddhaa:POp_X4nCJdP-vl8pTXZgE__fsIHJlaa6@mahmud.db.elephantsql.com/khbddhaa")
 
 app = Flask(__name__)
 
