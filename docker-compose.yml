@@ -1,0 +1,31 @@
+services:
+  db:
+    image: postgres:15.3-bullseye
+    volumes:
+      - ./db_data:/var/lib/postgresql/data
+      - ./db_init_scripts:/docker-entrypoint-initdb.d
+    environment:
+      - POSTGRES_DB=funseeker
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=amazing_password
+    ports:
+      - 15432:5432
+    healthcheck:
+      test: pg_isready -U postgres
+      interval: 10s
+      timeout: 10s
+      retries: 3
+  web:
+    build: .
+    command: flask run --debug --host=0.0.0.0
+    volumes:
+      - .:/app
+    ports:
+      - 5000:5000
+      - 8000:8000
+    environment:
+      - DATABASE_URL=postgresql+psycopg2://postgres:amazing_password@db/funseeker
+      - SQLALCHEMY_ECHO=True
+    depends_on:
+      db:
+        condition: service_healthy

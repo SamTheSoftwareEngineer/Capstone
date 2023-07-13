@@ -17,7 +17,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 # Render 
 # 'postgresql:///funseeker' --> Local 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_ECHO'] = False 
+app.config['SQLALCHEMY_ECHO'] = bool(os.getenv('SQLALCHEMY_ECHO',False))
 app.config["SECRET_KEY"] = os.getenv('SECRET_KEY', "please-work")
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
