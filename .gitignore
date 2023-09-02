@@ -168,3 +168,5 @@ cython_debug/
 
 # Added by Tiago because it's where the database data lives
 /db_data
+
+.DS_Store
