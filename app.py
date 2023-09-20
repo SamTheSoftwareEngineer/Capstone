@@ -1,13 +1,9 @@
-from flask import Flask, render_template, redirect, session, flash, jsonify, request
+from flask import Flask, render_template, redirect, session, request, url_for, flash
 from flask_debugtoolbar import DebugToolbarExtension
-from models import connect_db, db, User, Activity, Favorites
-from forms import RegisterForm, LoginForm
-from sqlalchemy.exc import IntegrityError
+from models import connect_db, db, User, Favorites
+from forms import RegisterForm, LoginForm, FeedbackForm
 import requests
 import os 
-from sqlalchemy.orm.attributes import InstrumentedAttribute
-import json
-import os
 
 DATABASE_URL = os.getenv('DATABASE_URL', "postgresql+psycopg2://khbddhaa:POp_X4nCJdP-vl8pTXZgE__fsIHJlaa6@mahmud.db.elephantsql.com/khbddhaa")
 
@@ -170,22 +166,34 @@ def save_favorite():
         
     return redirect('/favorites')
     
-    
-    
-# @app.route('/remove_favorite', methods=['POST'])
-# def delete_favorite():
-#     """Remove an activity from a user's favorites."""
-#     activity = request.form.get('activity')
+# Feedback routes
 
-#     if activity:
-#         favorite = Favorites.query.filter_by(activity=activity).first()
-#         if favorite:
-#             db.session.delete(favorite)
-#             db.session.commit()
-#             print('Favorite successfully deleted!')
-#         else:
-#             print('Favorite not found.')
-
-#     return redirect('/favorites/')
-
+@app.route('/feedback', methods=['GET', 'POST'])
+def feedback_form_submission():
     
+    form = FeedbackForm() 
+    
+    if request.method == "POST" and form.validate():
+        
+        print("Saving feedback in database...")
+        
+        # Get user information and content from the form
+        
+        name = request.form['name']
+        email = request.form['email']
+        message = request.form['message']
+        
+        new_feedback = FeedbackForm(name=name, email=email, message=message)
+        
+        # Save feedback to database 
+        db.session.add(new_feedback)
+        db.session.commit()
+        
+        print(f"Feedback saved successfully. Thank you {name}! ")
+        
+        flash('Your feedback has been submitted! Thank you!')
+        return redirect(url_for('/feedback'))
+        
+        
+    else:
+        return render_template('feedback.html', form=form)

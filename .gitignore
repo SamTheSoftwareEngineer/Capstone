@@ -4,4 +4,4 @@ seed.py
 *.pdf
 *.png
 /__pycache__/
-
+.DS_Store
