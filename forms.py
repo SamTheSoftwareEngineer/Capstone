@@ -19,4 +19,4 @@ class FeedbackForm(FlaskForm):
     """Form for the user to send feedback to devs."""
     name = StringField('Name', validators=[InputRequired()])
     email = EmailField('Email, validators=[InputRequired()])')
-    message = TextAreaField('Message', minlength=5)
+    message = TextAreaField('Message', validators=[InputRequired()])
