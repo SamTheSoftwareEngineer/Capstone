@@ -12,7 +12,7 @@ To run this app, please follow these instructions:
 This project is the first in two capstone projects created as part of Springboard's Software Engineering Coursework. The application seeks to connect to the Bored API (located here: https://www.boredapi.com/) and return an activity for the user to do based on preferences and other criteria. 
 
 MVP for this project includes:
-* Once a user selects an activity, the application will recommend another activity similar to the one chosen.  
+* Once a user selects an activity, the application will recommend another activity similar to the one generated.  
 * The user can also save activities to a list of favorites and view them later.
 * Users can register to use the application for login/logout functionality.
 
