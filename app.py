@@ -13,7 +13,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 # Render 
 # 'postgresql:///funseeker' --> Local 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_ECHO'] = bool(os.getenv('SQLALCHEMY_ECHO',False))
+app.config['SQLALCHEMY_ECHO'] = False 
 app.config["SECRET_KEY"] = os.getenv('SECRET_KEY', "please-work")
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
@@ -169,7 +169,7 @@ def save_favorite():
 # Feedback routes
 
 @app.route('/feedback', methods=['GET', 'POST'])
-def feedback_form_submission():
+def feedback_form():
     
     form = FeedbackForm() 
     
@@ -178,7 +178,6 @@ def feedback_form_submission():
         print("Saving feedback in database...")
         
         # Get user information and content from the form
-        
         name = request.form['name']
         email = request.form['email']
         message = request.form['message']
@@ -191,7 +190,7 @@ def feedback_form_submission():
         
         print(f"Feedback saved successfully. Thank you {name}! ")
         
-        flash('Your feedback has been submitted! Thank you!')
+        # Redirect to feedback page
         return redirect(url_for('/feedback'))
         
         

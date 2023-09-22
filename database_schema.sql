@@ -21,3 +21,10 @@ CREATE TABLE "favorites" (
 ALTER TABLE "favorites" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("user_id");
 
 ALTER TABLE "favorites" ADD FOREIGN KEY ("activity_id") REFERENCES "activities" ("activity_id");
+
+CREATE TABLE "feedback" (
+  feedback_id serial PRIMARY KEY,
+  name string,
+  email string,
+  message string
+)

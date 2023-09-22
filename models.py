@@ -68,6 +68,15 @@ class Favorites(db.Model):
         self.activity = activity
         self.user_id = user_id
 
+
+# class Feedback(db.Model):
+#     __tablename__ = 'feedback'
+    
+#     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+#     name = db.Column(db.Text, nullable=False)
+#     email = db.Column(db.Text, nullable=False)
+#     message = db.Column(db.Text, nullable=False)
+    
     
     
     
