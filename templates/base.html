@@ -21,6 +21,15 @@
         {% block content %}
         <h2> Welcome to the Bored Flask Application! </h2>
         <p> Please select an option: </p>
+        {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class="flash-messages">
+      {% for message in messages %}
+        <li class="flash-message">{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
         <button><a href="/login"> I'd like to log in. </a></button>
         <br>
         <button><a href="/register"> I'd like to register. </a></button>

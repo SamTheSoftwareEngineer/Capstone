@@ -70,9 +70,14 @@ def login():
 def logout():
     """Logout user."""
     print("Logging out user")
-    session.pop('user_id')
-    print("User successfully logged out")
-    return redirect('/')
+    user_id = session.get('user_id')
+    if user_id is None:
+        flash("You are not currently logged in. Please log in or register first.", 'error')
+        return redirect('/login')
+    else:
+        session.pop('user_id')
+        print("User successfully logged out")
+        return redirect('/')
 
 #  Registration route
 @app.route('/register', methods=['GET', 'POST'])
@@ -143,7 +148,7 @@ def show_favorites():
     if 'user_id' in session:
         user_id = session['user_id']
     else:
-        flash('You are not authorized to view this page. Please log in or register', 'warning')
+        flash('You are not authorized to view the favorites page. Please log in or register', 'warning')
         return redirect('/')
     
     user = User.query.get_or_404(user_id)
@@ -154,8 +159,8 @@ def show_favorites():
 @app.route('/save_favorite', methods=['GET','POST'])
 def save_favorite():
     """Save activity to user favorites."""
-    if 'user_id' not in session:
-        flash('You must be logged or registered to view this page.', 'warning')
+    if 'user_id' not in session or None:
+        flash('You must be logged or registered to add to favorites and/or view the favorites page.', 'warning')
         return redirect('/login')
 
     if request.method == 'POST':
