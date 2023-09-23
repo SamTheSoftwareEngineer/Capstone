@@ -1,0 +1,147 @@
+{
+  "id": "38fc31f8-7450-4d0e-98b3-03183030fe9e",
+  "version": "2.0",
+  "name": "Funseeker Tests",
+  "url": "https://funseeker.onrender.com",
+  "tests": [{
+    "id": "8509e40c-12a6-4a0a-8229-dcf3bd59ccdf",
+    "name": "test_Integration_Funseeker",
+    "commands": [{
+      "id": "5208aa13-1183-4a05-8e03-2e56afdca960",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "4b96ad81-e957-44f5-ace8-e54f61ee508e",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1280x800",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "a3624fa6-d331-4bfb-a6ed-1000ed6b742d",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=I'd like to log in.",
+      "targets": [
+        ["linkText=I'd like to log in.", "linkText"],
+        ["css=button:nth-child(3) > a", "css:finder"],
+        ["xpath=//a[contains(@href, '/login')]", "xpath:href"],
+        ["xpath=//button/a", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "45c7927c-bdb2-40cd-8ada-1fbd0a3a97c8",
+      "comment": "",
+      "command": "click",
+      "target": "id=username",
+      "targets": [
+        ["id=username", "id"],
+        ["name=username", "name"],
+        ["css=#username", "css:finder"],
+        ["xpath=//input[@id='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "8bcc804d-ed22-4eea-bb1e-18d2dfe7bda6",
+      "comment": "",
+      "command": "type",
+      "target": "id=username",
+      "targets": [
+        ["id=username", "id"],
+        ["name=username", "name"],
+        ["css=#username", "css:finder"],
+        ["xpath=//input[@id='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "test"
+    }, {
+      "id": "ef00272e-3492-4406-9de1-640bcb2fe2be",
+      "comment": "",
+      "command": "click",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "b6279c3a-bd5e-4012-bbe5-1a52a9012730",
+      "comment": "",
+      "command": "type",
+      "target": "id=password",
+      "targets": [
+        ["id=password", "id"],
+        ["name=password", "name"],
+        ["css=#password", "css:finder"],
+        ["xpath=//input[@id='password']", "xpath:attributes"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": "testing"
+    }, {
+      "id": "a1380929-09e6-4b4a-8b58-a5312bdffc70",
+      "comment": "",
+      "command": "click",
+      "target": "css=.button:nth-child(5)",
+      "targets": [
+        ["css=.button:nth-child(5)", "css:finder"],
+        ["xpath=//button[@type='submit']", "xpath:attributes"],
+        ["xpath=//button", "xpath:position"],
+        ["xpath=//button[contains(.,'Submit')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "a3f6232d-7f4c-45e9-b2fe-e968b448295e",
+      "comment": "",
+      "command": "click",
+      "target": "css=.button:nth-child(1)",
+      "targets": [
+        ["css=.button:nth-child(1)", "css:finder"],
+        ["xpath=//input[@value='Generate Activity']", "xpath:attributes"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f5aa6cde-fe1c-44bc-84cc-8fa4941afc63",
+      "comment": "",
+      "command": "click",
+      "target": "css=.button:nth-child(4)",
+      "targets": [
+        ["css=.button:nth-child(4)", "css:finder"],
+        ["xpath=//input[@value='Add to Favorites']", "xpath:attributes"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "b7d601dc-c6a3-4e94-83ef-3b2dbee1b660",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Logout",
+      "targets": [
+        ["linkText=Logout", "linkText"],
+        ["css=.logout-btn", "css:finder"],
+        ["xpath=//a[contains(text(),'Logout')]", "xpath:link"],
+        ["xpath=//a[contains(@href, '/logout')]", "xpath:href"],
+        ["xpath=//a[4]", "xpath:position"],
+        ["xpath=//a[contains(.,'Logout')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "b71b4fd4-b832-4c80-8abc-c73a100ad503",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["8509e40c-12a6-4a0a-8229-dcf3bd59ccdf"]
+  }],
+  "urls": ["https://funseeker.onrender.com/"],
+  "plugins": []
+}

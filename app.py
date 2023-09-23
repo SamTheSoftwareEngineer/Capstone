@@ -87,6 +87,9 @@ def register_user():
         user.username = form.username.data
         user.password = form.password.data
         
+        if User.query.filter_by(username=user.username).first():
+            flash("That username is already taken. Please choose a different one or log in.", 'warning')
+        
     # Hash the user's password to store in the database 
     # using the register method from the User class
         new_user = User.register(user.username, user.password)
@@ -98,7 +101,7 @@ def register_user():
     # Add the user to the session
         session['user_id'] = new_user.id
 
-        print('User created successfully')
+        flash('User created successfully', 'success')
         return redirect('/activity')
     
     else:
