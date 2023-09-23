@@ -1,8 +1,14 @@
 # Funseeker
 
-To run this app, please follow these instructions:
+This app can be found live on https://funseeker.onrender.com/
+
+To run this app in development mode, please follow these instructions:
 1. Clone this repository to your local machine
 2. Create the database using 'createdb funseeker' in terminal or command prompt (recommended to use PostgresSQL)
+3. Psql to connect to the database and run the following commands:
+    - \i database_schema.sql
+    - \i seed.py 
+
 2. Run 'python -m venv venv' to create a virtual environment
 3. Run 'source venv/bin/activate' to activate the virtual environment
 4. Run 'pip install -r requirements.txt' to install the required packages and dependencies
@@ -17,7 +23,6 @@ MVP for this project includes:
 * Users can register to use the application for login/logout functionality.
 
 Some reach goals for this project include:
-* Allowing users to add their own activities to the database
 * Adding a feature that allows users to add their own activities to the database
 * Allowing users to be able to share their completed activities on social media
 * Adding a feature that allows users to be able to share their activities with other users
@@ -34,6 +39,9 @@ Some reach goals for this project include:
 * Bootstrap
 * WTForms 
 * Jinja
+* Selenium and Unittest for testing
 
 # Additional Notes
-Please note that this project is still a work in progress and is used for educational and portfolio purposes only. I have included a seed.py file that parses and loads the data from the Bored API into the database for use within this appliction. All API related accrediation goes to the Bored API (https://www.boredapi.com/) and its original creators, contributors, and maintainers.# Capstone
+Please note that this project is still a work in progress and is used for educational and portfolio purposes only. I have included a seed.py file that parses and loads the data from the Bored API into the database for use within this appliction. All API related accrediation goes to the Bored API (https://www.boredapi.com/) and its original creators, contributors, and maintainers. 
+
+
