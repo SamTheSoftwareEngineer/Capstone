@@ -94,7 +94,7 @@ def register_user():
         
         if User.query.filter_by(username=user.username).first():
             flash("That username is already taken. Please choose a different one or log in.", 'warning')
-        
+            redirect('/register')
     # Hash the user's password to store in the database 
     # using the register method from the User class
         new_user = User.register(user.username, user.password)

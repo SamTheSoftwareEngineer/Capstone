@@ -26,7 +26,7 @@ class User(db.Model):
         """Register user with hashed password and return user."""
         
         hashed_pwd = bcrypt.generate_password_hash(password)
-        hashed_utf8 = hashed_pwd.decode('utf8')
+        hashed_utf8 = hashed_pwd.decode('utf8')  # Convert bytes to UTF-8 string
         
         user = cls(username=username, password=hashed_utf8)
         
