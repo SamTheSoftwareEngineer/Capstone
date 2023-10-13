@@ -4,6 +4,15 @@
 
 {% block content %}
   <div class="activity-content">
+    {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class="flash-messages">
+      {% for message in messages %}
+        <li class="flash-message">{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
     <h2>Press the button below to generate a random activity. Have fun!</h2>
 
     <form method="POST">

@@ -1,9 +1,9 @@
-"""This file is the SQL equivalent to the models.py database schema. It is used to create the database tables."""
+-- """This file is the SQL equivalent to the models.py database schema. It is used to create the database tables."""
 
 CREATE TABLE "users" (
   "user_id" serial PRIMARY KEY,
-  "username" string, UNIQUE, not NULL
-  "password" string, unique, not NULL
+  "username" VARCHAR(20) UNIQUE NOT NULL,
+  "password" VARCHAR(20) UNIQUE NOT NULL
 );
 
 CREATE TABLE "activities" (
@@ -21,3 +21,10 @@ CREATE TABLE "favorites" (
 ALTER TABLE "favorites" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("user_id");
 
 ALTER TABLE "favorites" ADD FOREIGN KEY ("activity_id") REFERENCES "activities" ("activity_id");
+
+-- CREATE TABLE "feedback" (
+--   feedback_id serial PRIMARY KEY,
+--   name string NOT NULL,
+--   email string NOT NULL,
+--   message string NOT NULL
+-- )

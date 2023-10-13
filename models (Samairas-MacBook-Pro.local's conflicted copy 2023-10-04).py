@@ -26,7 +26,7 @@ class User(db.Model):
         """Register user with hashed password and return user."""
         
         hashed_pwd = bcrypt.generate_password_hash(password)
-        hashed_utf8 = hashed_pwd.decode('utf8')
+        hashed_utf8 = hashed_pwd.decode('utf8')  # Convert bytes to UTF-8 string
         
         user = cls(username=username, password=hashed_utf8)
         
@@ -68,6 +68,15 @@ class Favorites(db.Model):
         self.activity = activity
         self.user_id = user_id
 
+
+# class Feedback(db.Model):
+#     __tablename__ = 'feedback'
+    
+#     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+#     name = db.Column(db.Text, nullable=False)
+#     email = db.Column(db.Text, nullable=False)
+#     message = db.Column(db.Text, nullable=False)
+    
     
     
     

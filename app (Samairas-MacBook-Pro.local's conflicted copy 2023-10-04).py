@@ -1,19 +1,22 @@
-from flask import Flask, render_template, redirect, session, flash, jsonify, request
+from flask import Flask, render_template, redirect, session, request, flash
 from flask_debugtoolbar import DebugToolbarExtension
-from models import connect_db, db, User, Activity, Favorites
-from forms import RegisterForm, LoginForm
-from sqlalchemy.exc import IntegrityError
+from models import connect_db, db, User, Favorites
+from forms import RegisterForm, LoginForm, FeedbackForm
 import requests
 import os 
-from sqlalchemy.orm.attributes import InstrumentedAttribute
-import json
-import os
+import configure_test
+
+
 
 DATABASE_URL = os.getenv('DATABASE_URL', "postgresql+psycopg2://khbddhaa:POp_X4nCJdP-vl8pTXZgE__fsIHJlaa6@mahmud.db.elephantsql.com/khbddhaa")
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL 
+if os.environ.get("FLASK_ENV") == "test":
+    app.config['SQLALCHEMY_DATABASE_URI'] = configure_test.TEST_DATABASE_URL
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
+     
 # Render 
 # 'postgresql:///funseeker' --> Local 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -67,9 +70,14 @@ def login():
 def logout():
     """Logout user."""
     print("Logging out user")
-    session.pop('user_id')
-    print("User successfully logged out")
-    return redirect('/')
+    user_id = session.get('user_id')
+    if user_id is None:
+        flash("You are not currently logged in. Please log in or register first.", 'error')
+        return redirect('/login')
+    else:
+        session.pop('user_id')
+        print("User successfully logged out")
+        return redirect('/')
 
 #  Registration route
 @app.route('/register', methods=['GET', 'POST'])
@@ -84,6 +92,9 @@ def register_user():
         user.username = form.username.data
         user.password = form.password.data
         
+        if User.query.filter_by(username=user.username).first():
+            flash("That username is already taken. Please choose a different one or log in.", 'warning')
+            redirect('/register')
     # Hash the user's password to store in the database 
     # using the register method from the User class
         new_user = User.register(user.username, user.password)
@@ -95,7 +106,7 @@ def register_user():
     # Add the user to the session
         session['user_id'] = new_user.id
 
-        print('User created successfully')
+        flash('User created successfully', 'success')
         return redirect('/activity')
     
     else:
@@ -134,10 +145,10 @@ def find_activity():
 @app.route('/favorites')
 def show_favorites():
     """Show user's favorites."""
-    user_id = session['user_id']
-    
-    if user_id != session['user_id']:
-        print('You are not authorized to view this page.')
+    if 'user_id' in session:
+        user_id = session['user_id']
+    else:
+        flash('You are not authorized to view the favorites page. Please log in or register', 'warning')
         return redirect('/')
     
     user = User.query.get_or_404(user_id)
@@ -148,8 +159,8 @@ def show_favorites():
 @app.route('/save_favorite', methods=['GET','POST'])
 def save_favorite():
     """Save activity to user favorites."""
-    if 'user_id' not in session:
-        print('You must be logged in to view this page.')
+    if 'user_id' not in session or None:
+        flash('You must be logged or registered to add to favorites and/or view the favorites page.', 'warning')
         return redirect('/login')
 
     if request.method == 'POST':
@@ -170,22 +181,33 @@ def save_favorite():
         
     return redirect('/favorites')
     
-    
-    
-# @app.route('/remove_favorite', methods=['POST'])
-# def delete_favorite():
-#     """Remove an activity from a user's favorites."""
-#     activity = request.form.get('activity')
+# # Feedback routes
 
-#     if activity:
-#         favorite = Favorites.query.filter_by(activity=activity).first()
-#         if favorite:
-#             db.session.delete(favorite)
-#             db.session.commit()
-#             print('Favorite successfully deleted!')
-#         else:
-#             print('Favorite not found.')
-
-#     return redirect('/favorites/')
-
+# @app.route('/feedback', methods=['GET', 'POST'])
+# def feedback_form():
     
+#     form = FeedbackForm() 
+    
+#     if request.method == "POST" and form.validate():
+        
+#         print("Saving feedback in database...")
+        
+#         # Get user information and content from the form
+#         name = request.form['name']
+#         email = request.form['email']
+#         message = request.form['message']
+        
+#         new_feedback = FeedbackForm(name=name, email=email, message=message)
+        
+#         # Save feedback to database 
+#         db.session.add(new_feedback)
+#         db.session.commit()
+        
+#         print(f"Feedback saved successfully. Thank you {name}! ")
+        
+#         # Redirect to feedback page
+#         return redirect(url_for('/feedback'))
+        
+        
+#     else:
+#         return render_template('feedback.html', form=form)
