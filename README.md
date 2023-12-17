@@ -36,4 +36,4 @@ Some reach goals for this project include:
 * Jinja
 
 # Additional Notes
-Please note that this project is still a work in progress and is used for educational and portfolio purposes only. I have included a seed.py file that parses and loads the data from the Bored API into the database for use within this appliction. All API related accrediation goes to the Bored API (https://www.boredapi.com/) and its original creators, contributors, and maintainers.# Capstone
+Please note that this project is still a work in progress and is used for educational and portfolio purposes only. I have included a seed.py file that parses and loads the data from the Bored API into the database for use within this appliction. All API related accrediation goes to the Bored API (https://www.boredapi.com/) and its original creators, contributors, and maintainers.
