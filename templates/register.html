@@ -4,6 +4,15 @@
 
 {% block content %}
   <div class="registration-form">
+    {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class="flash-messages">
+      {% for message in messages %}
+        <li class="flash-message">{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
     <p> Please register below:</p>
     <div>
         <form action="/register" method="POST">

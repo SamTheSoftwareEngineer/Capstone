@@ -1,12 +1,12 @@
 from flask import Flask, render_template, redirect, session, flash, jsonify, request
 from flask_debugtoolbar import DebugToolbarExtension
 from models import connect_db, db, User, Activity, Favorites
-from forms import RegisterForm, LoginForm
+from forms import RegisterForm, LoginForm, FeedbackForm
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy import create_engine
 import requests
 import os 
-from sqlalchemy.orm.attributes import InstrumentedAttribute
-import json
+from sqlalchemy.orm import sessionmaker
 import os
 
 DATABASE_URL = os.getenv('DATABASE_URL', "postgresql+psycopg2://khbddhaa:POp_X4nCJdP-vl8pTXZgE__fsIHJlaa6@mahmud.db.elephantsql.com/khbddhaa")
@@ -15,7 +15,7 @@ app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL 
 # Render 
-# 'postgresql:///funseeker' --> Local 
+# 'postgresql:///funseeker' --> Local database URL 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False 
 app.config["SECRET_KEY"] = os.getenv('SECRET_KEY', "please-work")
@@ -74,33 +74,30 @@ def logout():
 #  Registration route
 @app.route('/register', methods=['GET', 'POST'])
 def register_user():
-    """Register a user."""
-
     form = RegisterForm()
-    
+
     if request.method == 'POST' and form.validate():
-        # Get the username and password from the form
-        user = User()
-        user.username = form.username.data
-        user.password = form.password.data
-        
-    # Hash the user's password to store in the database 
-    # using the register method from the User class
+        user = User(username=form.username.data, password=form.password.data)
         new_user = User.register(user.username, user.password)
-
-    # Save the user to the database
-        db.session.add(new_user)
-        db.session.commit()
-
-    # Add the user to the session
-        session['user_id'] = new_user.id
-
-        print('User created successfully')
-        return redirect('/activity')
-    
-    else:
         
-        return render_template('register.html', form=form)
+        try: 
+            db.session.add(new_user)
+            db.session.commit()
+            print("User successfully registered")
+            session['user_id'] = new_user.id
+            
+            return redirect('/activity')
+        
+        except IntegrityError:
+            db.session.rollback()
+            flash("The username is already taken. Please register with a different username.")
+            print("Failure to register user")
+            return render_template('register.html', form=form)   
+             
+        finally:
+            db.session.close()
+
+    return render_template('register.html', form=form)
 
 # Activities routes 
 @app.route('/activity', methods=['GET', 'POST'])
@@ -169,23 +166,4 @@ def save_favorite():
         print("Activity successfully saved to favorites.")
         
     return redirect('/favorites')
-    
-    
-    
-# @app.route('/remove_favorite', methods=['POST'])
-# def delete_favorite():
-#     """Remove an activity from a user's favorites."""
-#     activity = request.form.get('activity')
-
-#     if activity:
-#         favorite = Favorites.query.filter_by(activity=activity).first()
-#         if favorite:
-#             db.session.delete(favorite)
-#             db.session.commit()
-#             print('Favorite successfully deleted!')
-#         else:
-#             print('Favorite not found.')
-
-#     return redirect('/favorites/')
-
     
