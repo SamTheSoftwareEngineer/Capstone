@@ -67,6 +67,11 @@ def login():
 def logout():
     """Logout user."""
     print("Logging out user")
+    if 'user_id' not in session:
+        flash('You are not logged in. Please log in first.')
+        return redirect('/login')
+    
+    # Otherwise, remove the user_id from the session and redirect them to the homepage.
     session.pop('user_id')
     print("User successfully logged out")
     return redirect('/')
@@ -131,8 +136,14 @@ def find_activity():
 @app.route('/favorites')
 def show_favorites():
     """Show user's favorites."""
-    user_id = session['user_id']
     
+    if 'user_id' not in session:
+        flash('You must be logged in to view this page.')
+        return redirect('/login')
+    
+
+    user_id = session['user_id']
+
     if user_id != session['user_id']:
         print('You are not authorized to view this page.')
         return redirect('/')
@@ -146,7 +157,7 @@ def show_favorites():
 def save_favorite():
     """Save activity to user favorites."""
     if 'user_id' not in session:
-        print('You must be logged in to view this page.')
+        flash('You must be logged in to view this page.')
         return redirect('/login')
 
     if request.method == 'POST':
