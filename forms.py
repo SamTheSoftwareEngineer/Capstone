@@ -14,3 +14,9 @@ class RegisterForm(FlaskForm):
     """Form for registering a user."""
     username = StringField('Username')
     password = PasswordField('Password')
+
+class FeedbackForm(FlaskForm):
+    """Form for adding feedback."""
+    title = StringField('Title', validators=[InputRequired(), Length(max=100)])
+    content = StringField('Content', validators=[InputRequired()])
+    submit = SubmitField('Submit')
