@@ -10,7 +10,7 @@ def insert_data():
     with open('activities.json') as file:
         data = json.load(file)
 
-    # Establish a connection to the PostgreSQL database
+    # Establish a connection to the PostgreSQL/production database
     conn = psycopg2.connect(
         host='mahmud.db.elephantsql.com',
         database='khbddhaa',
@@ -50,8 +50,6 @@ def insert_data():
         
     );
     """
-    
-
 
     cursor.execute(create_table_query)
     conn.commit()
@@ -74,7 +72,7 @@ def insert_data():
     cursor.close()
     conn.close()
     
-    print("Tables create successfully. Data inserted successfully.")
+    # print("Tables create successfully. Data inserted successfully.")
 
 if __name__ == '__main__':
     insert_data()
