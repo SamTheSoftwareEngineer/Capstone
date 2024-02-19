@@ -8,7 +8,13 @@
     {% if favorites %}
       <ul class="favorites-list">
         {% for favorite in favorites %}
-          <li>{{ favorite.activity }}</li>
+          <li>
+            {{ favorite.activity }}
+          <form action="/delete_favorite" method="POST">
+            <input type="hidden" name="favorite_id" value="{{ favorite.id }}">
+            <button type="submit" class="delete-button"> Delete Favorite </button>
+           </form>
+          </li> 
         {% endfor %}
       </ul>
     {% else %}

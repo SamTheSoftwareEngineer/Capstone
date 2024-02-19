@@ -177,4 +177,25 @@ def save_favorite():
         print("Activity successfully saved to favorites.")
         
     return redirect('/favorites')
-    
+
+@app.route('/delete_favorite', methods=['POST'])
+def delete_favorite():
+    """Delete activity from user favorites."""
+    if 'user_id' not in session:
+        flash('You must be logged in to view this page.')
+        return redirect('/login')
+
+    if request.method == 'POST':
+        print("Attempting to delete activity from favorites")
+        
+        # Get the favorite id from the form
+        favorite_id = request.form['favorite_id']
+        
+        # Delete the favorite from the database
+        favorite = Favorites.query.get(favorite_id)
+        db.session.delete(favorite)
+        db.session.commit()
+        
+        print("Activity successfully deleted from favorites.")
+        
+    return redirect('/favorites')

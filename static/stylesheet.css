@@ -66,6 +66,14 @@ body {
     margin-top: 10px;
 }
 
+.delete-button {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
 .copyright {
     color: #000000; /* Black */
     font-size: 15px;
@@ -223,4 +231,3 @@ body {
     margin-bottom: 10px;
     color: #000000; /* Black */
   }
-  
