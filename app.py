@@ -1,10 +1,13 @@
 from flask import Flask, render_template, redirect, session, flash, request
 from flask_debugtoolbar import DebugToolbarExtension
-from models import connect_db, db, User, Favorites
-from forms import RegisterForm, LoginForm
+from models import connect_db, db, User, Favorites, Photo
+from forms import RegisterForm, LoginForm, PhotoForm
 from sqlalchemy.exc import IntegrityError
 import requests
 import os 
+from flask_uploads import UploadSet, configure_uploads, IMAGES
+from forms import PhotoForm
+
 
 DATABASE_URL = os.getenv('DATABASE_URL', "postgresql+psycopg2://khbddhaa:POp_X4nCJdP-vl8pTXZgE__fsIHJlaa6@mahmud.db.elephantsql.com/khbddhaa")
 
@@ -17,7 +20,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False 
 app.config["SECRET_KEY"] = os.getenv('SECRET_KEY', "adnjcuiebewhbsfbdwujhb")
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
-
+app.config['UPLOADED_PHOTOS_DEST'] = 'static/uploads/photos'
 
 
 debug_toolbar = DebugToolbarExtension(app)
@@ -181,7 +184,7 @@ def save_favorite():
 def delete_favorite():
     """Delete activity from user favorites."""
     if 'user_id' not in session:
-        flash('You must be logged in to view this page.')
+        flash('You must be logged in to view that page.')
         return redirect('/login')
 
     if request.method == 'POST':
@@ -199,3 +202,76 @@ def delete_favorite():
         
     return redirect('/favorites')
 
+
+# Photo routes 
+
+
+photos = UploadSet('photos', IMAGES)
+configure_uploads(app, photos)
+@app.route("/upload", methods=["GET", "POST"])
+def upload_photos():
+
+    if 'user_id' not in session:
+        flash('You must be logged in to upload photos!')
+        return redirect('/login')
+
+
+    form = PhotoForm()
+
+    if form.validate_on_submit():
+        try:
+            filename = photos.save(form.photo.data)
+            user = User.query.get(session['user_id'])
+            photo = Photo(filename=filename, user=user)
+            db.session.add(photo)
+            db.session.commit()
+            print('Photo successfully saved to database.')
+            flash('Photo uploaded successfully!', 'success')
+        except Exception as e:
+            db.session.rollback()
+            flash('An error occurred while uploading the photo. Please try again later.', 'error')
+            app.logger.error(f"Error uploading photo: {e}")
+
+    return render_template("upload.html", form=form)
+
+@app.route("/photos", methods=["GET", "POST"])
+def show_photos():
+    if 'user_id' not in session:
+        flash('You must be logged in to view photos!')
+        return redirect('/login')
+
+    # Retrieve photos uploaded by the current user
+    user_id = session['user_id']
+    user_photos = Photo.query.filter_by(user_id=user_id).all()
+
+    return render_template("photos.html", user_photos=user_photos)
+
+import os
+
+@app.route('/delete_photo/<int:photo_id>', methods=["POST"])
+def delete_photo(photo_id):
+    """Delete photo from photobooth"""
+    if 'user_id' not in session:
+        flash('You must be logged in to delete photos!', 'error')
+        return redirect('/login')
+
+    # Retrieve the photo from the database
+    photo = Photo.query.get_or_404(photo_id)
+
+    # Check if the photo belongs to the current user
+    if photo.user_id != session['user_id']:
+        flash('You are not authorized to delete this photo!', 'error')
+        return redirect('/photos')
+
+    # Delete the photo file from the server
+    photo_path = os.path.join(app.config['UPLOADED_PHOTOS_DEST'], photo.filename)
+    if os.path.exists(photo_path):
+        os.remove(photo_path)
+    else:
+        app.logger.warning(f"Photo file '{photo_path}' not found.")
+
+    # Delete the photo from the database
+    db.session.delete(photo)
+    db.session.commit()
+
+    return redirect('/photos')

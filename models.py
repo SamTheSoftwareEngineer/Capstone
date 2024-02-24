@@ -37,7 +37,7 @@ class User(db.Model):
     def authentication(cls, username, password):
 
         print(f"Authenticating user: {username}")
-        user = User.query.filter_by(username=username).first()
+        user = cls.query.filter_by(username=username).first()
 
         if user and bcrypt.check_password_hash(user.password, password):
             print(f"Authentication successful for user: {username}")
@@ -68,7 +68,11 @@ class Favorites(db.Model):
         self.activity = activity
         self.user_id = user_id
 
-    
+class Photo(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    filename = db.Column(db.String(255))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    user = db.relationship('User', backref=db.backref('photos', lazy=True))   
     
     
     
