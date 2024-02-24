@@ -42,7 +42,7 @@ class LoginTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
     
     def test_favorites(self):
-        """Can we get to the favorites page?"""
+        """Do we get redirected from the favorites page?"""
 
         response = self.client.get('/favorites')
 
