@@ -15,14 +15,14 @@ MVP for this project includes:
 * Once a user selects an activity, the application will recommend another activity similar to the one chosen.  
 * The user can also save activities to a list of favorites and view them later.
 * Users can register to use the application for login/logout functionality.
+* A 'photo album' feature that allows users to upload photos of their completed activities.
 
 Some reach goals for this project include:
-* Allowing users to add their own activities to the database
 * Adding a feature that allows users to add their own activities to the database
 * Allowing users to be able to share their completed activities on social media
 * Adding a feature that allows users to be able to share their activities with other users
 * Adding a feature that allows users to leave reviews and ratings on activities
-* Incorporating a 'photo album' feature that allows users to upload photos of their completed activities with date-time stamps
+
 
 # Technologies Used
 * Python
