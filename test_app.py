@@ -5,7 +5,6 @@ from unittest import TestCase
 from app import app 
 
 
-
 class LoginTestCase(TestCase):
     """Contains unit tests for the login page."""
 
@@ -41,6 +40,11 @@ class LoginTestCase(TestCase):
 
         # Check that we got a response
         self.assertEqual(response.status_code, 200)
+    
+    def test_favorites(self):
+        """Can we get to the favorites page?"""
 
-        
+        response = self.client.get('/favorites')
+
+        self.assertEqual(response.status_code, 302)
 
