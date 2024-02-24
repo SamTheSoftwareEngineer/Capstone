@@ -86,7 +86,8 @@ def register_user():
     if request.method == 'POST' and form.validate():
         user = User(username=form.username.data, password=form.password.data)
         new_user = User.register(user.username, user.password)
-        
+    
+    # Error handling for if the username is already taken
         try: 
             db.session.add(new_user)
             db.session.commit()
@@ -205,7 +206,6 @@ def delete_favorite():
 
 # Photo routes 
 
-
 photos = UploadSet('photos', IMAGES)
 configure_uploads(app, photos)
 @app.route("/upload", methods=["GET", "POST"])
@@ -218,6 +218,7 @@ def upload_photos():
 
     form = PhotoForm()
 
+    # If the form is valid, save the photo to the database, otherwise return an error 
     if form.validate_on_submit():
         try:
             filename = photos.save(form.photo.data)
