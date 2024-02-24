@@ -1,9 +1,6 @@
 """Contains forms for the application."""
-
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import InputRequired, Length
-
+from wtforms import StringField, PasswordField
 
 class LoginForm(FlaskForm):
     username = StringField('Username', render_kw={"placeholder": "Username"})
@@ -14,4 +11,3 @@ class RegisterForm(FlaskForm):
     """Form for registering a user."""
     username = StringField('Username')
     password = PasswordField('Password')
-

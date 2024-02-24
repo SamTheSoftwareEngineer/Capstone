@@ -1,13 +1,10 @@
-from flask import Flask, render_template, redirect, session, flash, jsonify, request
+from flask import Flask, render_template, redirect, session, flash, request
 from flask_debugtoolbar import DebugToolbarExtension
-from models import connect_db, db, User, Activity, Favorites
+from models import connect_db, db, User, Favorites
 from forms import RegisterForm, LoginForm
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy import create_engine
 import requests
 import os 
-from sqlalchemy.orm import sessionmaker
-import os
 
 DATABASE_URL = os.getenv('DATABASE_URL', "postgresql+psycopg2://khbddhaa:POp_X4nCJdP-vl8pTXZgE__fsIHJlaa6@mahmud.db.elephantsql.com/khbddhaa")
 
@@ -18,8 +15,10 @@ app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 # 'postgresql:///funseeker' --> Local database URL 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_ECHO'] = False 
-app.config["SECRET_KEY"] = os.getenv('SECRET_KEY', "please-work")
+app.config["SECRET_KEY"] = os.getenv('SECRET_KEY', "adnjcuiebewhbsfbdwujhb")
 app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
+
+
 
 debug_toolbar = DebugToolbarExtension(app)
 
@@ -199,3 +198,4 @@ def delete_favorite():
         print("Activity successfully deleted from favorites.")
         
     return redirect('/favorites')
+
