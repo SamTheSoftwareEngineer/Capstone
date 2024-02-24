@@ -54,6 +54,14 @@ body {
     font-family: Arial, sans-serif;
 }
 
+a {
+  color: white; /* You can use any color you prefer */
+}
+
+/* Define the color for visited links */
+a:visited {
+    color: white; /* Change this to the color you want for visited links */
+}
 
 .button {
     display: inline-block;
@@ -64,6 +72,7 @@ body {
     color: #FFFFFF;
     text-decoration: none;
     margin-top: 10px;
+    border: none;
 }
 
 .delete-button {
