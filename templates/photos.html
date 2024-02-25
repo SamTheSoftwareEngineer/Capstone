@@ -8,7 +8,7 @@
         {% for photo in user_photos %}
         <div class="col-md-3 mb-3">
             <img src="{{ url_for('static', filename='uploads/photos/' + photo.filename) }}" class="img-fluid" style="width:300px">
-            <form action="/delete_photo/{{ photo.id }}" method="POST"> <!-- Updated form action -->
+            <form action="/delete_photo/{{ photo.id }}" method="POST"> 
                 <button type="submit" class="delete-button"> Delete Photo </button>
             </form>
         </div>
