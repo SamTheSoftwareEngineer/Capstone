@@ -6,7 +6,6 @@ from sqlalchemy.exc import IntegrityError
 import requests
 import os 
 from flask_uploads import UploadSet, configure_uploads, IMAGES
-from forms import PhotoForm
 
 
 DATABASE_URL = os.getenv('DATABASE_URL', "postgresql+psycopg2://khbddhaa:POp_X4nCJdP-vl8pTXZgE__fsIHJlaa6@mahmud.db.elephantsql.com/khbddhaa")
@@ -110,29 +109,52 @@ def register_user():
 # Activities routes 
 @app.route('/activity', methods=['GET', 'POST'])
 def find_activity():
-    
     if request.method == 'POST':
         print("Attempting to find activities")
         
-        response = requests.get('https://www.boredapi.com/api/activity')
-        data = response.json()
-
-        # Extract the type of the recommended activity
-        activity_type = data['type']
-
-        # Make two additional GET requests to BoredAPI with the same type (for recommendations)
-        recommended_activity1 = requests.get(f'https://www.boredapi.com/api/activity?type={activity_type}')
-        recommended_activity2 = requests.get(f'https://www.boredapi.com/api/activity?type={activity_type}')
-        data1 = recommended_activity1.json()
-        data2 = recommended_activity2.json()
+        # Fetch a random activity
+        response = requests.get('https://bored-api.appbrewery.com/random')
+        if response.status_code != 200:
+            print(f"Error: Failed to fetch activity. Status code: {response.status_code}")
+            return render_template('error.html', message="Unable to fetch activity. Please try again.")
         
-        # Extract the recommended activity and additional activities
-        activity = data['activity']
-        recommended_activities = [data1['activity'], data2['activity']]
+        try:
+            data = response.json()
+        except requests.exceptions.JSONDecodeError:
+            print("Error: Invalid JSON response from activity API")
+            return render_template('error.html', message="Invalid response from activity API.")
         
-        return render_template('activity.html', activity=activity, recommended_activities=recommended_activities)
+        # Extract the activity and its type
+        activity = data.get('activity', "No activity found.")
+        activity_type = data.get('type', "general")
+
+        # Fetch activities of the same type
+        recommended_response = requests.get(f'https://bored-api.appbrewery.com/filter?type={activity_type}')
+        if recommended_response.status_code != 200:
+            print(f"Error: Failed to fetch recommendations. Status code: {recommended_response.status_code}")
+            return render_template('error.html', message="Unable to fetch recommendations.")
+        
+        try:
+            recommended_activities_list = recommended_response.json()
+        except requests.exceptions.JSONDecodeError:
+            print("Error: Invalid JSON response for recommendations")
+            return render_template('error.html', message="Invalid recommendations from activity API.")
+        
+        # Extract two unique recommended activities (excluding the original one, if present)
+        recommended_activities = [
+            act['activity'] for act in recommended_activities_list if act['activity'] != activity
+        ][:2]  # Get up to two activities
+
+        # Render the activity and recommendations
+        return render_template(
+            'activity.html',
+            activity=activity,
+            recommended_activities=recommended_activities
+        )
     
+    # Render the default template for GET requests
     return render_template('activity.html')
+
     
      
 # Favorite routes 
@@ -247,7 +269,7 @@ def show_photos():
 
     return render_template("photos.html", user_photos=user_photos)
 
-import os
+
 
 @app.route('/delete_photo/<int:photo_id>', methods=["POST"])
 def delete_photo(photo_id):
