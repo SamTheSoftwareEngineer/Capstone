@@ -1,8 +1,14 @@
 """Contains unit tests for the app.py routes."""
 import app
 from unittest import TestCase
-from app import app 
 import requests
+from app import app  # Import the app instance
+
+def test_home():
+    with app.test_client() as client:
+        response = client.get('/')  # Simulate a GET request
+        assert response.status_code == 200
+
 
 
 class LoginTestCase(TestCase):
