@@ -3,8 +3,9 @@ from flask_debugtoolbar import DebugToolbarExtension
 from models import connect_db, db, User, Favorites, Photo
 from forms import RegisterForm, LoginForm, PhotoForm
 from sqlalchemy.exc import IntegrityError
-import requests
+import random
 import os 
+import json 
 from flask_uploads import UploadSet, configure_uploads, IMAGES
 
 
@@ -107,43 +108,36 @@ def register_user():
     return render_template('register.html', form=form)
 
 # Activities routes 
+# Helper function to load activities from the static file
+def load_activities():
+    json_path = os.path.join(app.static_folder, 'activities.json')
+    with open(json_path, 'r') as file:
+        return json.load(file)
+
 @app.route('/activity', methods=['GET', 'POST'])
 def find_activity():
+    # Load all activities from the static JSON file
+    all_activities = load_activities()
+    
     if request.method == 'POST':
         print("Attempting to find activities")
-        
-        # Fetch a random activity
-        response = requests.get('https://bored-api.appbrewery.com/random')
-        if response.status_code != 200:
-            print(f"Error: Failed to fetch activity. Status code: {response.status_code}")
-            return render_template('error.html', message="Unable to fetch activity. Please try again.")
-        
-        try:
-            data = response.json()
-        except requests.exceptions.JSONDecodeError:
-            print("Error: Invalid JSON response from activity API")
-            return render_template('error.html', message="Invalid response from activity API.")
-        
-        # Extract the activity and its type
-        activity = data.get('activity', "No activity found.")
-        activity_type = data.get('type', "general")
 
-        # Fetch activities of the same type
-        recommended_response = requests.get(f'https://bored-api.appbrewery.com/filter?type={activity_type}')
-        if recommended_response.status_code != 200:
-            print(f"Error: Failed to fetch recommendations. Status code: {recommended_response.status_code}")
-            return render_template('error.html', message="Unable to fetch recommendations.")
-        
-        try:
-            recommended_activities_list = recommended_response.json()
-        except requests.exceptions.JSONDecodeError:
-            print("Error: Invalid JSON response for recommendations")
-            return render_template('error.html', message="Invalid recommendations from activity API.")
-        
-        # Extract two unique recommended activities (excluding the original one, if present)
+        # Fetch a random activity
+        random_activity = random.choice(all_activities)
+
+        # Extract the activity and its type
+        activity = random_activity.get('activity', "No activity found.")
+        activity_type = random_activity.get('type', "general")
+
+        # Filter activities of the same type
+        recommended_activities_list = [
+            act for act in all_activities if act.get('type') == activity_type and act.get('activity') != activity
+        ]
+
+        # Extract two unique recommended activities
         recommended_activities = [
-            act['activity'] for act in recommended_activities_list if act['activity'] != activity
-        ][:2]  # Get up to two activities
+            act['activity'] for act in random.sample(recommended_activities_list, min(2, len(recommended_activities_list)))
+        ]
 
         # Render the activity and recommendations
         return render_template(
